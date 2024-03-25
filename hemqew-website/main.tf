@@ -38,3 +38,27 @@ module "security_groups" {
   main         = module.vpc.main
   Task_name    = module.vpc.Task_name
 }
+
+#create application load balancer
+
+module "application_load_balancer" {
+  source                  = "../modules/alb"
+  Task_name               = module.vpc.Task_name
+  alb_security_grp_id     = module.security_groups.alb_security_grp_id
+  public1                 = module.vpc.public1
+  public2                 = module.vpc.public2
+  main                    = module.vpc.main
+  web_private_instance_id = module.ec2-instance.web_private_instance_id
+  domain                  = "*.myproject1.net"
+}
+
+# create ec2-instance
+
+module "ec2-instance" {
+  source                  = "../modules/ec2-instance"
+  public1                 = module.vpc.public1
+  az1                     = module.vpc.az1
+  bastion_security_grp_id = module.security_groups.bastion_security_grp_id
+  web_app_security_grp_id = module.security_groups.web_app_security_grp_id
+  private1                = module.vpc.private1 
+}

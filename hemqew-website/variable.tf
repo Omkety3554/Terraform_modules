@@ -6,4 +6,6 @@ variable "public2_cidr" {}
 variable "private1_cidr" {}
 variable "private2_cidr" {}
 variable "Environment" {}
-
+variable "instance_type" {}
+variable "key_name" {}
+variable "domain" {}
